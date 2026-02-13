@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better focus states for accessibility */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Input autofill styling */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
+  }
+
+  input:-webkit-autofill {
+    -webkit-text-fill-color: hsl(var(--foreground)) !important;
+  }
+}
+
+@layer base {
+  /* Better touch target sizes for mobile */
+  @media (max-width: 640px) {
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      min-height: 44px;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    /* Insurance Professional Color System */
+    --background: 0 0% 100%;
+    --foreground: 220 10% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 10% 20%;
+    
+    /* Primary Blue - Trust and Professionalism */
+    --primary: 217 100% 43%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - Light Blue Accent */
+    --secondary: 209 100% 55%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Muted - Gray Tones */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    
+    /* Accent - Bright Blue for Important Elements */
+    --accent: 217 100% 43%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Destructive - Red for Errors/Warnings */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border and Input */
+    --border: 220 14% 90%;
+    --input: 0 0% 100%;
+    --ring: 217 100% 43%;
+    
+    /* Success Green */
+    --success: 142 72% 29%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Chart Colors */
+    --chart-1: 217 100% 43%;
+    --chart-2: 209 100% 55%;
+    --chart-3: 210 99% 50%;
+    --chart-4: 220 90% 48%;
+    --chart-5: 215 85% 40%;
+    
+    --radius: 0.5rem;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 10% 20%;
+    --sidebar-primary: 217 100% 43%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 209 100% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 14% 90%;
+    --sidebar-ring: 217 100% 43%;
+  }
+  
+  .dark {
+    --background: 220 13% 10%;
+    --foreground: 220 13% 93%;
+    --card: 220 13% 15%;
+    --card-foreground: 220 13% 93%;
+    --popover: 220 13% 15%;
+    --popover-foreground: 220 13% 93%;
+    
+    /* Primary Blue */
+    --primary: 217 100% 55%;
+    --primary-foreground: 220 13% 10%;
+    
+    /* Secondary - Light Blue */
+    --secondary: 209 100% 65%;
+    --secondary-foreground: 220 13% 10%;
+    
+    /* Muted - Dark Gray */
+    --muted: 220 13% 30%;
+    --muted-foreground: 220 13% 70%;
+    
+    /* Accent */
+    --accent: 217 100% 55%;
+    --accent-foreground: 220 13% 10%;
+    
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border and Input */
+    --border: 220 13% 25%;
+    --input: 220 13% 20%;
+    --ring: 217 100% 55%;
+    
+    /* Success Green */
+    --success: 142 72% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Chart Colors */
+    --chart-1: 217 100% 55%;
+    --chart-2: 209 100% 65%;
+    --chart-3: 210 99% 60%;
+    --chart-4: 220 90% 58%;
+    --chart-5: 215 85% 50%;
+    
+    /* Sidebar */
+    --sidebar-background: 220 13% 13%;
+    --sidebar-foreground: 220 13% 93%;
+    --sidebar-primary: 217 100% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 209 100% 65%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 13% 25%;
+    --sidebar-ring: 217 100% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
