@@ -11,12 +11,13 @@ export async function submitLead(formData: FormData) {
   }
 
   const supabase = createClient(supabaseUrl, supabaseKey)
-
-  const full_name = formData.get('name') as string
-  const email = formData.get('email') as string
-  const phone = formData.get('phone') as string
-  const line_of_business = formData.get('line') as string
-  const effective_date = formData.get('date') as string
+  
+  // Safe extraction of form data
+  const full_name = formData.get('name')?.toString() || ''
+  const email = formData.get('email')?.toString() || ''
+  const phone = formData.get('phone')?.toString() || ''
+  const line_of_business = formData.get('line')?.toString() || ''
+  const effective_date = formData.get('date')?.toString() || ''
 
   let is_hot_lead = false
   if (effective_date) {
