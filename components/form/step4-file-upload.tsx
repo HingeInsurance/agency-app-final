@@ -101,11 +101,12 @@ export default function Step4FileUpload({
     <div className="space-y-4">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl font-bold text-foreground">
-          Upload your declarations page
+        <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+          Upload Declarations <span className="text-lg font-normal text-muted-foreground">(Optional)</span>
         </h2>
         <p className="text-sm text-muted-foreground mt-2">
-          This helps us provide you with a more accurate quote
+          If you have your current policy handy, uploading it helps us give you a better quote. 
+          <strong> If not, you can skip this step!</strong>
         </p>
       </div>
 
@@ -223,7 +224,7 @@ export default function Step4FileUpload({
       {/* File Info */}
       <div className="p-4 bg-muted/50 rounded-lg border border-border/50 space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-          What to Upload
+          What to Upload (If available)
         </p>
         <ul
           id="file-help-text"
@@ -232,15 +233,13 @@ export default function Step4FileUpload({
           <li>• Your current insurance declarations page</li>
           <li>• Policy number and coverage details clearly visible</li>
           <li>• Clear photo or scanned copy</li>
-          <li>• Or a PDF of your complete policy</li>
         </ul>
       </div>
 
       {/* Optional Note */}
       <div className="p-4 bg-accent/5 rounded-lg border border-accent/20">
         <p className="text-xs text-accent font-medium">
-          💡 Tip: Having your declarations page helps us provide more accurate
-          quotes faster.
+          💡 Tip: Don't worry if you can't find it right now. You can still submit your request without it!
         </p>
       </div>
     </div>
