@@ -267,14 +267,7 @@ export default function Step3PersonalInfo({
         )}
       </div>
 
-      {/* Privacy Notice */}
-      <div className="p-4 bg-muted/50 rounded-lg mt-6 border border-border/50">
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Your information is secure and will only be used to provide you with
-          insurance quotes. We respect your privacy and will never share your
-          details with third parties.
-        </p>
-      </div>
+      
     </div>
   )
 }
