@@ -81,4 +81,201 @@ export default function MultiStepForm({ onSuccess }: MultiStepFormProps) {
     // STEP 4 VALIDATION REMOVED - It is now optional!
     // else if (step === 4) {
     //   if (!formData.file) {
-    //     newErrors.file = 'Please upload your declarations
+    //     newErrors.file = 'Please upload your declarations page'
+    //   }
+    // }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const isValidPhone = (phone: string): boolean => {
+    const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/
+    return phoneRegex.test(phone.replace(/\s/g, ''))
+  }
+
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      if (currentStep < TOTAL_STEPS) {
+        setCurrentStep(currentStep + 1)
+      }
+    }
+  }
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1)
+      setErrors({})
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (!validateStep(currentStep)) {
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Prepare form data with file handling
+      const formDataToSubmit = new FormData()
+      formDataToSubmit.append('insuranceType', formData.insuranceType || '')
+      formDataToSubmit.append('startDate', formData.startDate || '')
+      formDataToSubmit.append('fullName', formData.fullName)
+      formDataToSubmit.append('email', formData.email)
+      formDataToSubmit.append('phone', formData.phone)
+      
+      // Add conditional fields
+      if (formData.propertyAddress) {
+        formDataToSubmit.append('propertyAddress', formData.propertyAddress)
+      }
+      if (formData.vehicleCount) {
+        formDataToSubmit.append('vehicleCount', formData.vehicleCount)
+      }
+      
+      // Only append file if it exists (Optional)
+      if (formData.file) {
+        formDataToSubmit.append('file', formData.file)
+      }
+
+      // Submit to Supabase via server action
+      const result = await submitLead(formDataToSubmit)
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to submit lead')
+      }
+
+      // Show success state
+      setIsSuccess(true)
+
+      // Close modal after delay
+      setTimeout(() => {
+        onSuccess()
+      }, 2000)
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setErrors({ 
+        submit: error instanceof Error ? error.message : 'Failed to submit form. Please try again.' 
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const updateFormData = (updates: Partial<FormData>) => {
+    setFormData((prev) => ({ ...prev, ...updates }))
+    setErrors({})
+  }
+
+  // Render current step
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <Step1InsuranceType
+            value={formData.insuranceType}
+            onChange={(value) => updateFormData({ insuranceType: value })}
+            error={errors.insuranceType}
+          />
+        )
+      case 2:
+        return (
+          <Step2StartDate
+            value={formData.startDate}
+            onChange={(value) => updateFormData({ startDate: value })}
+            error={errors.startDate}
+          />
+        )
+      case 3:
+        return (
+          <Step3PersonalInfo
+            fullName={formData.fullName}
+            email={formData.email}
+            phone={formData.phone}
+            onFullNameChange={(value) => updateFormData({ fullName: value })}
+            onEmailChange={(value) => updateFormData({ email: value })}
+            onPhoneChange={(value) => updateFormData({ phone: value })}
+            errors={{
+              fullName: errors.fullName,
+              email: errors.email,
+              phone: errors.phone,
+            }}
+            insuranceType={formData.insuranceType}
+            propertyAddress={formData.propertyAddress || ''}
+            onPropertyAddressChange={(value) => updateFormData({ propertyAddress: value })}
+            vehicleCount={formData.vehicleCount || ''}
+            onVehicleCountChange={(value) => updateFormData({ vehicleCount: value })}
+          />
+        )
+      case 4:
+        return (
+          <Step4FileUpload
+            file={formData.file}
+            onChange={(file) => updateFormData({ file })}
+            error={errors.file}
+          />
+        )
+      default:
+        return null
+    }
+  }
+
+  // Show success message
+  if (isSuccess) {
+    return <SuccessMessage onClose={onSuccess} />
+  }
+
+  return (
+    <div className="w-full space-y-6">
+      {/* Progress Indicator */}
+      <ProgressIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+
+      {/* Step Content */}
+      <div className="min-h-96">
+        {renderStep()}
+        {errors.submit && (
+          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm text-destructive">
+            {errors.submit}
+          </div>
+        )}
+      </div>
+
+      {/* Navigation Buttons */}
+      <div className="flex gap-3 pt-6 border-t border-border/50">
+        <Button
+          onClick={handlePrevious}
+          disabled={currentStep === 1 || isSubmitting}
+          variant="outline"
+          className="flex-1 h-11 rounded-lg"
+        >
+          <ChevronLeft className="w-4 h-4 mr-2" />
+          Back
+        </Button>
+
+        {currentStep < TOTAL_STEPS ? (
+          <Button
+            onClick={handleNext}
+            disabled={isSubmitting}
+            className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg flex items-center justify-center"
+          >
+            Next
+            <ChevronRight className="w-4 h-4 ml-2" />
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="flex-1 h-11 bg-success hover:bg-success/90 text-success-foreground rounded-lg flex items-center justify-center"
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
+          </Button>
+        )}
+      </div>
+    </div>
+  )
+}
