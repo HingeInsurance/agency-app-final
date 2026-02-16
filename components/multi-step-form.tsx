@@ -77,11 +77,13 @@ export default function MultiStepForm({ onSuccess }: MultiStepFormProps) {
       if (formData.insuranceType === 'auto' && !formData.vehicleCount) {
         newErrors.vehicleCount = 'Number of vehicles is required'
       }
-    } else if (step === 4) {
-      if (!formData.file) {
-        newErrors.file = 'Please upload your declarations page'
-      }
-    }
+    } 
+    // STEP 4 VALIDATION REMOVED - It is now optional!
+    // else if (step === 4) {
+    //   if (!formData.file) {
+    //     newErrors.file = 'Please upload your declarations page'
+    //   }
+    // }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -136,6 +138,7 @@ export default function MultiStepForm({ onSuccess }: MultiStepFormProps) {
         formDataToSubmit.append('vehicleCount', formData.vehicleCount)
       }
       
+      // Only append file if it exists (Optional)
       if (formData.file) {
         formDataToSubmit.append('file', formData.file)
       }
@@ -229,50 +232,4 @@ export default function MultiStepForm({ onSuccess }: MultiStepFormProps) {
 
   return (
     <div className="w-full space-y-6">
-      {/* Progress Indicator */}
-      <ProgressIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
-
-      {/* Step Content */}
-      <div className="min-h-96">
-        {renderStep()}
-        {errors.submit && (
-          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm text-destructive">
-            {errors.submit}
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="flex gap-3 pt-6 border-t border-border/50">
-        <Button
-          onClick={handlePrevious}
-          disabled={currentStep === 1 || isSubmitting}
-          variant="outline"
-          className="flex-1 h-11 rounded-lg"
-        >
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Back
-        </Button>
-
-        {currentStep < TOTAL_STEPS ? (
-          <Button
-            onClick={handleNext}
-            disabled={isSubmitting}
-            className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg flex items-center justify-center"
-          >
-            Next
-            <ChevronRight className="w-4 h-4 ml-2" />
-          </Button>
-        ) : (
-          <Button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="flex-1 h-11 bg-success hover:bg-success/90 text-success-foreground rounded-lg flex items-center justify-center"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
-          </Button>
-        )}
-      </div>
-    </div>
-  )
-}
+      {
