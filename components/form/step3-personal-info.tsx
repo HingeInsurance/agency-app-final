@@ -266,8 +266,5 @@ export default function Step3PersonalInfo({
           </div>
         )}
       </div>
-
-      
-    </div>
   )
 }
