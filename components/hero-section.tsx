@@ -38,13 +38,16 @@ export default function HeroSection({ onGetStarted }: HeroSectionProps) {
             <ChevronRight className="w-5 h-5" />
           </Button>
 
-          {/* Secondary Button */}
+          {/* Secondary Button - NOW LINKS TO MARKETING SITE */}
           <Button
+            asChild
             variant="outline"
             size="lg"
             className="w-full sm:w-auto h-12 sm:h-11 border-2 border-primary text-primary hover:bg-primary/5 font-semibold rounded-lg transition-all duration-200"
           >
-            Learn More
+            <a href="https://agency-marketing-site.vercel.app">
+              Learn More
+            </a>
           </Button>
         </div>
 
